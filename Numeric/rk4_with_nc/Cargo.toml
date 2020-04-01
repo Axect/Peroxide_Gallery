@@ -1,5 +1,5 @@
 [package]
-name = "matplotlib_with_netcdf"
+name = "rk4_with_nc"
 version = "0.1.0"
 authors = ["Axect <axect@outlook.kr>"]
 edition = "2018"
