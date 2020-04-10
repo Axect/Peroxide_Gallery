@@ -7,5 +7,6 @@
     * [RK4 with netcdf](./Numeric/rk4_with_nc)
     * [RK4 with plot](./Numeric/rk4_with_plot)
     * [Lebenverg Marquardt](./Numeric/lm)
+    * [QR Decomposition](./Numeric/qr)
 * Plot
     * [matplotlib with netcdf](./Plot/matplotlib_with_netcdf)
