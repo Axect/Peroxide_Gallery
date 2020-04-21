@@ -1,0 +1,11 @@
+[package]
+name = "yukawa_ground_state"
+version = "0.1.0"
+authors = ["Axect <axect@outlook.kr>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+peroxide = { version = "0.21", features = ["dataframe"] }
+natural_unit = "0.1"

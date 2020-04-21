@@ -9,5 +9,7 @@
     * [Lebenverg Marquardt](./Numeric/lm)
     * [QR Decomposition](./Numeric/qr)
     * [Reduced Row Echelon Form](./Numeric/rref)
+* Physics
+    * [Estimate Ground state of Yukawa potential](./Physics/yukawa_ground_state)
 * Plot
     * [matplotlib with netcdf](./Plot/matplotlib_with_netcdf)
