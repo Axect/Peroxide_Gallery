@@ -16,3 +16,7 @@ See [lm.pdf](http://people.duke.edu/~hpgavin/ce281/lm.pdf)
 # Run
 cargo run --release
 ```
+
+## Result
+
+![lm](./lm_test.png)
