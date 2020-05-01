@@ -1,5 +1,5 @@
 [package]
-name = "non_linear_reg"
+name = "linear_reg"
 version = "0.1.0"
 authors = ["Axect <axect@outlook.kr>"]
 edition = "2018"

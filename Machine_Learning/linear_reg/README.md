@@ -1,8 +1,8 @@
-# Non Linear Regression with Gaussian basis
+# Linear Regression with Gaussian basis
 
 ## Description
 
-Non linear regression with Gaussian basis (Not use smoother)
+Linear regression with Gaussian basis (Not use smoother)
 
 ## Requirements
 
