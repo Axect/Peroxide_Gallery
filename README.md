@@ -12,5 +12,6 @@
     * [Reduced Row Echelon Form](./Numeric/rref)
 * **Physics**
     * [Estimate Ground state of Yukawa potential](./Physics/yukawa_ground_state)
+    * [Falling with Air resistance](./Physics/fall_drag)
 * **Plot**
     * [matplotlib with netcdf](./Plot/matplotlib_with_netcdf)
