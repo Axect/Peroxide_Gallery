@@ -1,5 +1,7 @@
 # Peroxide Gallery
 
+* **Linear Algebra**
+    * [Gaussian Elimination](./Linear_Algebra/triangular)
 * **Machine Learning**
     * [Multi Layer Perceptron](./Machine_Learning/mlp)
     * [Linear regression](./Machine_Learning/linear_reg)
