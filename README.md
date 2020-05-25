@@ -13,6 +13,7 @@
     * [Lebenverg Marquardt](./Numeric/lm)
     * [QR Decomposition](./Numeric/qr)
     * [Reduced Row Echelon Form](./Numeric/rref)
+    * [Newton Cotes quadrature](./Numeric/newton_cotes)
 * **Physics**
     * [Estimate Ground state of Yukawa potential](./Physics/yukawa_ground_state)
     * [Falling with Air resistance](./Physics/fall_drag)
