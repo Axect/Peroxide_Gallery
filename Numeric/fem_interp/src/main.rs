@@ -10,7 +10,7 @@ fn main() {
     let mut e_h1: Vec<f64> = vec![];
     let mut u_h2: Vec<f64> = vec![];
     let mut u_h1: Vec<f64> = vec![];
-    for i in 1 .. 11 {
+    for i in 1..11 {
         let h = 1f64 / 2f64.powi(i);
         let ps = piecewise_1d(u, h);
         hs.push(h);
@@ -29,7 +29,12 @@ fn main() {
 
     df.write_nc("data.nc").expect("Can't write nc");
 
-    integrate(|x: f64| u(hyper_dual(x, 0f64, 0f64)).to_f64(), (0f64, 1f64), GaussLegendre(15)).print();
+    integrate(
+        |x: f64| u(hyper_dual(x, 0f64, 0f64)).to_f64(),
+        (0f64, 1f64),
+        GaussLegendre(15),
+    )
+    .print();
     (2f64 / PI).print();
 }
 
@@ -37,19 +42,19 @@ fn u(x: HyperDual) -> HyperDual {
     (x * PI).sin()
 }
 
-fn piecewise_1d<R1, R2>(u: fn(R1) -> R2, h: f64) -> Vec<Polynomial> 
+fn piecewise_1d<R1, R2>(u: fn(R1) -> R2, h: f64) -> Vec<Polynomial>
 where
     R1: Real,
-    R2: Real 
+    R2: Real,
 {
     let mut result: Vec<Polynomial> = vec![];
     let x = seq(0, 1, h);
     let y = x.fmap(|t: f64| u(R1::from_f64(t)).to_f64());
     let n = x.len();
 
-    for i in 0 .. n-1 {
-        let p1 = lagrange_polynomial(vec![x[i], x[i+1]], vec![y[i], 0f64]);
-        let p2 = lagrange_polynomial(vec![x[i], x[i+1]], vec![0f64, y[i+1]]);
+    for i in 0..n - 1 {
+        let p1 = lagrange_polynomial(vec![x[i], x[i + 1]], vec![y[i], 0f64]);
+        let p2 = lagrange_polynomial(vec![x[i], x[i + 1]], vec![0f64, y[i + 1]]);
         result.push(p1 + p2);
     }
 
@@ -75,13 +80,13 @@ fn poly_int_sum(ps: &Vec<Polynomial>, h: f64) -> f64 {
 pub enum Norm {
     L2,
     H1,
-    H2
+    H2,
 }
 
-fn measure_error<R1, R2>(u: fn(R1) -> R2, ps: &Vec<Polynomial>, h: f64, norm: Norm) -> f64 
-where 
+fn measure_error<R1, R2>(u: fn(R1) -> R2, ps: &Vec<Polynomial>, h: f64, norm: Norm) -> f64
+where
     R1: Real,
-    R2: Real
+    R2: Real,
 {
     let mut s = 0f64;
     let mut curr_h = 0f64;
@@ -108,13 +113,11 @@ where
             }
             s
         }
-        Norm::H2 => {
-            unimplemented!()
-        }
+        Norm::H2 => unimplemented!(),
     }
 }
 
-fn measure_norm<R1, R2>(u: fn(R1) -> R2, norm: Norm) -> f64 
+fn measure_norm<R1, R2>(u: fn(R1) -> R2, norm: Norm) -> f64
 where
     R1: Real,
     R2: Real,
