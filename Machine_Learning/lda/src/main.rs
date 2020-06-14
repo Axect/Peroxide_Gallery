@@ -4,8 +4,8 @@ use peroxide::fuga::*;
 
 fn main() {
     // Generate 2D Random Data
-    let x1 = Normal(1,1).sample(150);
-    let y1 = Normal(0,3).sample(150);
+    let x1 = Normal(3,1).sample(150);
+    let y1 = Normal(1,3).sample(150);
     let x2 = Normal(-3,1).sample(150);
     let y2 = Normal(-1,3).sample(150);
 
@@ -16,11 +16,11 @@ fn main() {
     // t1 : 300 x 1 (Vector)
     // t2 : 300 x 1 (Vector)
     // t  : 300 x 2 (Matrix) - One hot encoding
-    let x = concat(x1.clone(), x2.clone());
-    let y = concat(y1.clone(), y2.clone());
+    let x = concat(&x1, &x2);
+    let y = concat(&y1, &y2);
     let z = hstack!(vec![1f64; 300], x, y);
-    let t1 = concat(vec![1f64; 150], vec![0f64; 150]);
-    let t2 = concat(vec![0f64; 150], vec![1f64; 150]);
+    let t1 = concat(&vec![1f64; 150], &vec![0f64; 150]);
+    let t2 = concat(&vec![0f64; 150], &vec![1f64; 150]);
     let t = hstack!(t1, t2);
 
 
@@ -43,29 +43,24 @@ fn main() {
     let b2 = boundary_2(&w, domain.clone());
 
     // Fisher
-    let m1_x = x1.mean();
-    let m1_y = y1.mean();
-    let m2_x = x2.mean();
-    let m2_y = y2.mean();
-    let m1 = c!(m1_x, m1_y);
-    let m2 = c!(m2_x, m2_y);
-    let m = m1.add_vec(&m2);
-    let mut s1 = zeros(2, 2);
-    s1[(0, 0)] = x1.var();
-    s1[(0, 1)] = cov(&x1, &y1);
-    s1[(1, 0)] = s1[(0, 1)];
-    s1[(1, 1)] = y1.var();
-    let mut s2 = zeros(2, 2);
-    s2[(0, 0)] = x2.var();
-    s2[(0, 1)] = cov(&x2, &y2);
-    s2[(1, 0)] = s2[(0, 1)];
-    s2[(1, 1)] = y2.var();
-    let s = s1 + s2;
-    let mut w_fisher = weight_fisher(&s, m1, m2);
+    let g1 = hstack!(x1.clone(), y1.clone());
+    let g2 = hstack!(x2.clone(), y2.clone());
+    let m1 = g1.mean();
+    let m2 = g2.mean();
+    let m = m1.add_v(&m2).div_s(0.5);
+    m.print();
+    let s = g1.cov() + g2.cov();
+    s.print();
+    s.inv().unwrap().print();
+    let mut w_fisher = weight_fisher(&s, &m1, &m2);
     w_fisher = w_fisher.normalize(Norm::L2);
     w_fisher.print();
 
-    let mut df = DataFrame::with_header(vec!["x1", "y1", "x2", "y2", "d", "b1", "b2", "bf"]);
+    let w_g1 = &w_fisher * &g1.t();
+    let w_g2 = &w_fisher * &g2.t();
+    let w_0 = w_fisher.dot(&m);
+
+    let mut df = DataFrame::with_header(vec!["x1", "y1", "x2", "y2", "d", "b1", "b2", "bf", "r1", "r2"]);
     df["x1"] = x1;
     df["y1"] = y1;
     df["x2"] = x2;
@@ -73,7 +68,9 @@ fn main() {
     df["d"] = domain.clone();
     df["b1"] = b1;
     df["b2"] = b2;
-    df["bf"] = boundary_fisher(&w_fisher, domain, &m);
+    df["bf"] = boundary_fisher(&w_fisher, &domain, &m);
+    df["r1"] = w_g1;
+    df["r2"] = w_g2;
 
     df.print();
     df.write_nc("data/lda.nc").expect("Can't write least_square");
@@ -139,12 +136,12 @@ fn boundary_2(w: &Matrix, x: Vec<f64>) -> Vec<f64> {
 }
 
 /// Fisher's LDA
-fn weight_fisher(s_w: &Matrix, m1: Vec<f64>, m2: Vec<f64>) -> Vec<f64> {
-    s_w.inv().unwrap() * (m2.ox() - m1.ox()).red()
+fn weight_fisher(s_w: &Matrix, m1: &Vec<f64>, m2: &Vec<f64>) -> Vec<f64> {
+    s_w.inv().unwrap() * m2.sub_v(&m1)
 } 
 
 /// Boundary of Fisher's LDA
-fn boundary_fisher(w: &Vec<f64>, x: Vec<f64>, m: &Vec<f64>) -> Vec<f64> {
-    //((x.ox() - m[0]) * (-w[0] / w[1]) + m[1]).red()
-    (x.ox() * (-w[0] / w[1])).red()
+fn boundary_fisher(w: &Vec<f64>, x: &Vec<f64>, m: &Vec<f64>) -> Vec<f64> {
+    x.sub_s(m[0]).mul_s(-w[0] / w[1]).add_s(m[1])
+    //(x.ox() * (-w[0] / w[1])).red()
 }
