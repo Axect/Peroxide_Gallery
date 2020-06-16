@@ -3,6 +3,7 @@
 * **Linear Algebra**
     * [Gaussian Elimination](./Linear_Algebra/triangular)
     * [WAZ factorization](./Linear_Algebra/waz)
+    * [Solve](./Linear_Algebra/solve)
 * **Machine Learning**
     * [Multi Layer Perceptron](./Machine_Learning/mlp)
     * [Linear regression](./Machine_Learning/linear_reg)
