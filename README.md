@@ -15,6 +15,7 @@
     * [QR Decomposition](./Numeric/qr)
     * [Reduced Row Echelon Form](./Numeric/rref)
     * [Newton Cotes quadrature](./Numeric/newton_cotes)
+    * [ODE with Environment](./Numeric/ode_with_env)
 * **Physics**
     * [Estimate Ground state of Yukawa potential](./Physics/yukawa_ground_state)
     * [Falling with Air resistance](./Physics/fall_drag)
