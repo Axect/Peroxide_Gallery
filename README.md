@@ -16,6 +16,7 @@
     * [Reduced Row Echelon Form](./Numeric/rref)
     * [Newton Cotes quadrature](./Numeric/newton_cotes)
     * [ODE with Environment](./Numeric/ode_with_env)
+    * [Root Finding](./Numeric/root_finding)
 * **Physics**
     * [Estimate Ground state of Yukawa potential](./Physics/yukawa_ground_state)
     * [Falling with Air resistance](./Physics/fall_drag)
