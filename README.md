@@ -3,6 +3,7 @@
 * **Linear Algebra**
     * [Gaussian Elimination](./Linear_Algebra/triangular)
     * [WAZ factorization](./Linear_Algebra/waz)
+    * [QR Decomposition](./Linear_Algebra/qr)
     * [Solve](./Linear_Algebra/solve)
 * **Machine Learning**
     * [Multi Layer Perceptron](./Machine_Learning/mlp)
@@ -12,7 +13,6 @@
     * [RK4 with netcdf](./Numeric/rk4_with_nc)
     * [RK4 with plot](./Numeric/rk4_with_plot)
     * [Lebenverg Marquardt](./Numeric/lm)
-    * [QR Decomposition](./Numeric/qr)
     * [Reduced Row Echelon Form](./Numeric/rref)
     * [Newton Cotes quadrature](./Numeric/newton_cotes)
     * [ODE with Environment](./Numeric/ode_with_env)

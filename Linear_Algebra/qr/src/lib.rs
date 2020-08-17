@@ -1,5 +1,5 @@
 extern crate peroxide;
-use peroxide::*;
+use peroxide::fuga::*;
 
 #[allow(non_snake_case)]
 pub fn qr(A: &Matrix) -> (Matrix, Matrix) {
@@ -25,10 +25,10 @@ pub fn qr(A: &Matrix) -> (Matrix, Matrix) {
 
 #[allow(non_snake_case)]
 pub fn gen_householder(a: &Vec<f64>) -> Matrix {
-    let mut v = a.fmap(|t| t / (a[0] + a.norm() * a[0].signum()));
+    let mut v = a.fmap(|t| t / (a[0] + a.norm(Norm::L2) * a[0].signum()));
     v[0] = 1f64;
     let mut H = eye(a.len());
-    let vt = v.to_matrix();
+    let vt: Matrix = v.clone().into();
     H = H - 2f64 / v.dot(&v) * (&vt * &vt.t());
     H
 }
