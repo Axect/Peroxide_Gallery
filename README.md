@@ -25,3 +25,5 @@
     * [Approximate Pi with Elastic collision](./Physics/elastic_pi)
 * **Plot**
     * [matplotlib with netcdf](./Plot/matplotlib_with_netcdf)
+* **IO**
+    * [peroxide with polars](./IO/with_polars)
