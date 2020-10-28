@@ -8,4 +8,4 @@ edition = "2018"
 
 [dependencies]
 peroxide = "0.27"
-polars = "0.7"
+polars = "0.8"
