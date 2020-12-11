@@ -1,5 +1,6 @@
+#[macro_use]
 extern crate peroxide;
-use peroxide::*;
+use peroxide::fuga::*;
 
 fn main() {
     // Declare Explicit ODE
@@ -29,7 +30,7 @@ fn main() {
 }
 
 /// Acceleration
-fn a(st: &mut State<f64>) {
+fn a(st: &mut State<f64>, _: &NoEnv) {
     // x: s, v
     let x = &st.value;
     // dx: v, a
@@ -42,7 +43,7 @@ fn a(st: &mut State<f64>) {
 /// Stop condition
 ///
 /// If `s` <= 0, stop!
-fn stop(st: &ExplicitODE) -> bool {
+fn stop(st: &ExplicitODE<NoEnv>) -> bool {
     let s = &st.get_state().value[0];
     *s <= 0f64
 }
