@@ -1,5 +1,6 @@
+#[macro_use]
 extern crate peroxide;
-use peroxide::*;
+use peroxide::fuga::*;
 use std::f64::consts::PI;
 
 fn main() {
