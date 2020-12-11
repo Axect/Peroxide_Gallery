@@ -1,5 +1,6 @@
+#[macro_use]
 extern crate peroxide;
-use peroxide::*;
+use peroxide::fuga::*;
 
 fn main() {
     let init_state = State::<f64>::new(0f64, c!(1), c!(0));
@@ -26,7 +27,7 @@ fn main() {
     df.write_nc("data/rk4_test.nc").expect("Can't write nc files");
 }
 
-fn test_fn(st: &mut State<f64>) {
+fn test_fn(st: &mut State<f64>, _: &NoEnv) {
     let x = st.param;
     let y = &st.value;
     let dy = &mut st.deriv;

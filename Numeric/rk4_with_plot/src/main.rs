@@ -27,7 +27,7 @@ fn main() {
         .set_legend(vec!["RK4"])
         .set_path("plot.png");
 
-    plt.savefig();
+    plt.savefig().expect("Can't draw plot");
 }
 
 fn test_fn(st: &mut State<f64>) {

@@ -1,5 +1,5 @@
 extern crate peroxide;
-use peroxide::*;
+use peroxide::fuga::*;
 
 pub fn rref(m: &Matrix) -> Matrix {
     let mut lead = 0usize;
@@ -30,8 +30,8 @@ pub fn rref(m: &Matrix) -> Matrix {
         }
         for j in 0 .. m.row {
             if j != r {
-                let tmp1 = result.row(r).s_mul(result[(j, lead)]);
-                let tmp2 = result.row(j).sub(&tmp1);
+                let tmp1 = result.row(r).mul_s(result[(j, lead)]);
+                let tmp2 = result.row(j).sub_v(&tmp1);
                 result.subs_row(j, &tmp2);
             }
         }

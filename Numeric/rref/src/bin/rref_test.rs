@@ -1,6 +1,6 @@
 extern crate peroxide;
 extern crate rref;
-use peroxide::*;
+use peroxide::fuga::*;
 use rref::*;
 
 fn main() {
