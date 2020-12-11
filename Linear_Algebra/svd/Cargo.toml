@@ -7,4 +7,4 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-peroxide = "0.25"
+peroxide = { vesion = "0.26", features = ["O3"] }

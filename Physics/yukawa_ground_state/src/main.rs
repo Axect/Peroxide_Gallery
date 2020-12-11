@@ -1,6 +1,7 @@
+#[macro_use]
 extern crate peroxide;
 extern crate natural_unit;
-use peroxide::*;
+use peroxide::fuga::*;
 use peroxide::numerical::newton::newton;
 use natural_unit::CONSTANT_CGS;
 
@@ -29,6 +30,8 @@ fn main() {
     df["r0"] = r0_vec;
     df["E"] = taylor;
     df["EN"] = E0_vec(&r_vec);
+
+    df.print();
 
     df.write_nc("data/newton.nc").expect("Can't write nc");
 }
