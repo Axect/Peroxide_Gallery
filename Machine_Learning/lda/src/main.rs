@@ -51,7 +51,7 @@ fn main() {
     m.print();
     let s = g1.cov() + g2.cov();
     s.print();
-    s.inv().unwrap().print();
+    s.inv().print();
     let mut w_fisher = weight_fisher(&s, &m1, &m2);
     w_fisher = w_fisher.normalize(Norm::L2);
     w_fisher.print();
@@ -84,7 +84,7 @@ fn main() {
 /// * t: 300 x 2 (Matrix)
 /// * w:   3 x 2 (Matrix)
 fn weight_ls(x: &Matrix, t: &Matrix) -> Matrix {
-    let x_dagger = x.pseudo_inv().unwrap();
+    let x_dagger = x.pseudo_inv();
     &x_dagger * t
 }
 
@@ -137,7 +137,7 @@ fn boundary_2(w: &Matrix, x: Vec<f64>) -> Vec<f64> {
 
 /// Fisher's LDA
 fn weight_fisher(s_w: &Matrix, m1: &Vec<f64>, m2: &Vec<f64>) -> Vec<f64> {
-    s_w.inv().unwrap() * m2.sub_v(&m1)
+    s_w.inv() * m2.sub_v(&m1)
 } 
 
 /// Boundary of Fisher's LDA
