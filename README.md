@@ -26,4 +26,5 @@
 * **Plot**
     * [matplotlib with netcdf](./Plot/matplotlib_with_netcdf)
 * **IO**
+    * [DataFrame tutorial](./IO/dataframe)
     * [peroxide with polars](./IO/with_polars)
