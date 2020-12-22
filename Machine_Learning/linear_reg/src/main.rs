@@ -1,23 +1,24 @@
 extern crate peroxide;
-use peroxide::*;
+use peroxide::fuga::*;
 
 fn main() {
     let sample = gen_sample();
-    sample.write_nc("data.nc").expect("Can't write data.nc");
-    let x = &sample["x"];
-    let t = &sample["y"];
+    sample.write_nc("data/data.nc").expect("Can't write data.nc");
+
+    //let x: Vec<f64> = sample["x"].to_vec();
+    let t: Vec<f64> = sample["y"].to_vec();
 
     let s = 1f64;
-    let w = w_mle(s, t);
+    let w = w_mle(s, &t);
 
     let x_draw = seq(1, 100, 0.1);
     let y_draw = x_draw.fmap(|x| y(s, &w, x));
 
-    let mut df = DataFrame::with_header(vec!["x", "y"]);
-    df["x"] = x_draw;
-    df["y"] = y_draw;
+    let mut df = DataFrame::new(vec![]);
+    df.push("x", Series::new(x_draw));
+    df.push("y", Series::new(y_draw));
 
-    df.write_nc("reg.nc").expect("Can't write reg.nc");
+    df.write_nc("data/reg.nc").expect("Can't write reg.nc");
 }
 
 fn f(x: f64) -> f64 {
@@ -25,13 +26,14 @@ fn f(x: f64) -> f64 {
 }
 
 fn gen_sample() -> DataFrame {
-    let mut df = DataFrame::with_header(vec!["x", "y"]);
+    let mut df = DataFrame::new(vec![]);
     let normal = Normal(0, 1);
     let e = normal.sample(100).fmap(|t| 0.2 * t);
     let x = seq(1, 100, 1);
-    let y = x.fmap(f).add(&e);
-    df["x"] = x;
-    df["y"] = y;
+    let y = x.fmap(f).add_v(&e);
+
+    df.push("x", Series::new(x));
+    df.push("y", Series::new(y));
     df
 }
 
@@ -55,12 +57,12 @@ fn phi_vec(s: f64, x: f64) -> Vec<f64> {
     v
 }
 
-fn y(s: f64, w: &Matrix, x: f64) -> f64 {
+fn y(s: f64, w: &Vec<f64>, x: f64) -> f64 {
     let phi = phi_vec(s, x);
-    (w.t() * phi)[(0, 0)]
+    w.dot(&phi)
 }
 
-fn w_mle(s: f64, t: &Vec<f64>) -> Matrix {
+fn w_mle(s: f64, t: &Vec<f64>) -> Vec<f64> {
     let phi_mat = design_matrix(s);
-    phi_mat.pseudo_inv().unwrap() * t.to_matrix()
+    phi_mat.pseudo_inv().apply(t)
 }

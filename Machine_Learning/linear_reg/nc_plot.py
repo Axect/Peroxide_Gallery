@@ -2,11 +2,11 @@ from netCDF4 import Dataset
 import matplotlib.pyplot as plt
 
 # Import netCDF file
-ncfile1 = './data.nc'
+ncfile1 = './data/data.nc'
 data1 = Dataset(ncfile1)
 var1 = data1.variables
 
-ncfile2 = './reg.nc'
+ncfile2 = './data/reg.nc'
 data2 = Dataset(ncfile2)
 var2 = data2.variables
 
