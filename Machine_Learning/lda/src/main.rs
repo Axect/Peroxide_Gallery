@@ -60,17 +60,17 @@ fn main() {
     let w_g2 = &w_fisher * &g2.t();
     let w_0 = w_fisher.dot(&m);
 
-    let mut df = DataFrame::with_header(vec!["x1", "y1", "x2", "y2", "d", "b1", "b2", "bf", "r1", "r2"]);
-    df["x1"] = x1;
-    df["y1"] = y1;
-    df["x2"] = x2;
-    df["y2"] = y2;
-    df["d"] = domain.clone();
-    df["b1"] = b1;
-    df["b2"] = b2;
-    df["bf"] = boundary_fisher(&w_fisher, &domain, &m);
-    df["r1"] = w_g1;
-    df["r2"] = w_g2;
+    let mut df = DataFrame::new(vec![]);
+    df.push("x1", Series::new(x1));
+    df.push("y1", Series::new(y1));
+    df.push("x2",Series::new(x2));
+    df.push("y2",Series::new(y2));
+    df.push("d",Series::new(domain.clone()));
+    df.push("b1",Series::new(b1));
+    df.push("b2",Series::new(b2));
+    df.push("bf",Series::new(boundary_fisher(&w_fisher, &domain, &m)));
+    df.push("r1",Series::new(w_g1));
+    df.push("r2",Series::new(w_g2));
 
     df.print();
     df.write_nc("data/lda.nc").expect("Can't write least_square");
