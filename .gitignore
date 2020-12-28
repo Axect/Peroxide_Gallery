@@ -2,3 +2,5 @@
 */**/target
 *.lock
 *.nc
+*/.idea
+*/**/.idea
