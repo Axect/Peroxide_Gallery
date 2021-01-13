@@ -8,6 +8,6 @@ fn main() -> Result<(), RootError> {
     Ok(())
 }
 
-fn f<T: AD>(x: T) -> T {
+fn f(x: AD) -> AD {
     x.exp() - (x + 2f64)
 }
