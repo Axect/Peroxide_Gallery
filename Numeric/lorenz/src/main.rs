@@ -28,12 +28,18 @@ fn main() -> Result<(), Box<dyn Error>> {
     let results = ex_test.integrate();
     let results2 = ex_test2.integrate();
 
-    let mut df_euler = DataFrame::from_matrix(results);
-    df_euler.set_header(vec!["t", "x", "y", "z"]);
+    let mut df_euler = DataFrame::new(vec![]);
+    df_euler.push("t", Series::new(results.col(0)));
+    df_euler.push("x", Series::new(results.col(1)));
+    df_euler.push("y", Series::new(results.col(2)));
+    df_euler.push("z", Series::new(results.col(3)));
     df_euler.print();
 
-    let mut df_rk4 = DataFrame::from_matrix(results2);
-    df_rk4.set_header(vec!["t", "x", "y", "z"]);
+    let mut df_rk4 = DataFrame::new(vec![]);
+    df_rk4.push("t", Series::new(results2.col(0)));
+    df_rk4.push("x", Series::new(results2.col(1)));
+    df_rk4.push("y", Series::new(results2.col(2)));
+    df_rk4.push("z", Series::new(results2.col(3)));
     df_rk4.print();
 
     df_euler.write_nc("data/euler.nc")?;
