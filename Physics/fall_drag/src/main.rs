@@ -21,10 +21,10 @@ fn main() {
 
     let result = ex_solver.integrate();
 
-    let mut df = DataFrame::with_header(vec!["t", "v", "s"]);
-    df["t"] = result.col(0);
-    df["v"] = result.col(2);
-    df["s"] = result.col(1);
+    let mut df = DataFrame::new(vec![]);
+    df.push("t", Series::new(result.col(0)));
+    df.push("v", Series::new(result.col(2)));
+    df.push("s", Series::new(result.col(1)));
 
     df.write_nc("data/phys.nc").expect("Can't write phys.nc");
 }

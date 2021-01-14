@@ -45,7 +45,7 @@ impl Phys2D {
         loop {
             self.update(&a);
             n += 1;
-            println!("{:.4}\t{:.4}", self.v1, self.v2);
+            //println!("{:.4}\t{:.4}", self.v1, self.v2);
             if self.v2 < 0f64 && self.v1.abs() < self.v2.abs() {
                 break;
             }

@@ -13,7 +13,7 @@ fn main() {
     let r0_vec = seq(10, 100, 0.1);
     let mut r_vec = vec![0f64; r0_vec.len()];
     for (i, r0) in r0_vec.iter().enumerate() {
-        let func = |v: Vec<Number>| { f(*r0, v) };
+        let func = |v: &Vec<AD>| { f(*r0, v) };
         let sol = newton(r_init.clone(), func, 1e-15);
         r_vec[i] = sol[0];
     }
@@ -26,17 +26,17 @@ fn main() {
     // =========================================================================
     // Write to netcdf
     // =========================================================================
-    let mut df = DataFrame::with_header(vec!["r0", "E", "EN"]);
-    df["r0"] = r0_vec;
-    df["E"] = taylor;
-    df["EN"] = E0_vec(&r_vec);
+    let mut df = DataFrame::new(vec![]);
+    df.push("r0", Series::new(r0_vec));
+    df.push("E", Series::new(taylor));
+    df.push("EN", Series::new(E0_vec(&r_vec)));
 
     df.print();
 
     df.write_nc("data/newton.nc").expect("Can't write nc");
 }
 
-fn f(r0: f64, v: Vec<Number>) -> Vec<Number> {
+fn f(r0: f64, v: &Vec<AD>) -> Vec<AD> {
     let mch = m_e() * CONSTANT_CGS.c / CONSTANT_CGS.hbar;
     vec![(- mch * v[0] / r0).exp() * (1f64 + mch * v[0] / r0) * v[0] - CONSTANT_CGS.hbar / (m_e() * CONSTANT_CGS.c)]
 }
