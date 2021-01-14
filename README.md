@@ -19,7 +19,7 @@
     * [Root Finding](./Numeric/root_finding)
     * [Linear regression with error](./Numeric/lm_with_weight)
     * [Lorenz Butterfly](./Numeric/lorenz)
-* **Physics**
+* **Physics** (Ver: `0.30.0`)
     * [Estimate Ground state of Yukawa potential](./Physics/yukawa_ground_state)
     * [Falling with Air resistance](./Physics/fall_drag)
     * [Approximate Pi with Elastic collision](./Physics/elastic_pi)
