@@ -28,7 +28,7 @@ fn main() {
     t.print();
     println!();
 
-    let y = train(v, w, x, t, 0.25, 5000);
+    let y = train(v, w, x, t, 0.25, 10000);
     println!("Predict: ");
     y.print();
 }
@@ -37,13 +37,25 @@ fn weights_init(m: usize, n: usize) -> Matrix {
     rand(m, n) * 2f64 - 1f64
 }
 
-fn sigmoid(x: f64) -> f64 {
+fn sigmoid(x: AD) -> AD {
     1f64 / (1f64 + (-x).exp())
 }
 
-fn forward(weights: &Matrix, input_bias: &Matrix) -> Matrix {
+fn tanh(x: AD) -> AD {
+    (x.tanh() + 1f64) * 0.5
+}
+
+fn relu(x: AD) -> AD {
+    let z = x.empty();
+    if x[0] > z[0] { x } else { z }
+}
+
+// adfn is for activation
+fn forward<F>(weights: &Matrix, input_bias: &Matrix, adfn: &ADFn<F>) -> Matrix 
+where F: Fn(AD) -> AD 
+{
     let s = input_bias * weights;
-    s.fmap(|x| sigmoid(x))
+    s.fmap(|x| adfn.call_stable(x))
 }
 
 fn add_bias(input: &Matrix, bias: f64) -> Matrix {
@@ -67,24 +79,34 @@ fn train(
     let mut v = weights1;
     let mut w = weights2;
     let t = answer;
-    let xb = add_bias(&x, -1f64);
+    let xb = add_bias(&x, -0.1f64);
+
+    // Choose activation function - sigmoid or tanh
+    //let act = ADFn::new(sigmoid);
+    let act = ADFn::new(tanh);
+    //let act = ADFn::new(relu);
+    // gradient of sigmoid
+    let d_act = act.grad();
+    // vectorize function
+    let dv_act = |m: &Matrix| m.fmap(|x| d_act.call_stable(x));
 
     for _i in 0..times {
-        let a = forward(&v, &xb);
-        let ab = add_bias(&a, -1f64);
-        let y = forward(&w, &ab);
-        //        let err = (y.clone() - t.clone()).t() * (y.clone() - t.clone());
+        let a = forward(&v, &xb, &act);
+        let ab = add_bias(&a, -0.1f64);
+        let y = forward(&w, &ab, &act);
+        //let err = (&y - &t).t() * (&y - &t);
+        //err[(0,0)].print();
         let wb = hide_bias(&w);
-        let delta_o = &(&(&y - &t) * &y) * &(1f64 - &y);
-        let delta_h = &(&(&delta_o * &wb.t()) * &a) * &(1f64 - &a);
+        let delta_o = (&y - &t).hadamard(&dv_act(&y));
+        let delta_h = (&delta_o * &wb.t()).hadamard(&dv_act(&a));
 
         w = w.clone() - eta * (ab.t() * delta_o);
         v = v.clone() - eta * (xb.t() * delta_h);
     }
 
-    let a = forward(&v, &xb);
-    let ab = add_bias(&a, -1f64);
-    let y = forward(&w, &ab);
+    let a = forward(&v, &xb, &act);
+    let ab = add_bias(&a, -0.1f64);
+    let y = forward(&w, &ab, &act);
 
     y
 }
