@@ -1,4 +1,3 @@
-extern crate peroxide;
 use peroxide::fuga::*;
 
 // x : n x L
@@ -37,25 +36,14 @@ fn weights_init(m: usize, n: usize) -> Matrix {
     rand(m, n) * 2f64 - 1f64
 }
 
-fn sigmoid(x: AD) -> AD {
+#[ad_function]
+fn sigmoid(x: f64) -> f64 {
     1f64 / (1f64 + (-x).exp())
 }
 
-fn tanh(x: AD) -> AD {
-    (x.tanh() + 1f64) * 0.5
-}
-
-fn relu(x: AD) -> AD {
-    let z = x.empty();
-    if x[0] > z[0] { x } else { z }
-}
-
-// adfn is for activation
-fn forward<F>(weights: &Matrix, input_bias: &Matrix, adfn: &ADFn<F>) -> Matrix 
-where F: Fn(AD) -> AD 
-{
+fn forward(weights: &Matrix, input_bias: &Matrix) -> Matrix {
     let s = input_bias * weights;
-    s.fmap(|x| adfn.call_stable(x))
+    s.fmap(|x| sigmoid(x))
 }
 
 fn add_bias(input: &Matrix, bias: f64) -> Matrix {
@@ -81,32 +69,87 @@ fn train(
     let t = answer;
     let xb = add_bias(&x, -0.1f64);
 
-    // Choose activation function - sigmoid or tanh
-    //let act = ADFn::new(sigmoid);
-    let act = ADFn::new(tanh);
-    //let act = ADFn::new(relu);
-    // gradient of sigmoid
-    let d_act = act.grad();
-    // vectorize function
-    let dv_act = |m: &Matrix| m.fmap(|x| d_act.call_stable(x));
+    // Vectorize gradient of sigmoid
+    let dsigmoid = |m: &Matrix| m.fmap(|x| sigmoid_grad(x));
 
     for _i in 0..times {
-        let a = forward(&v, &xb, &act);
+        let a = forward(&v, &xb);
         let ab = add_bias(&a, -0.1f64);
-        let y = forward(&w, &ab, &act);
-        //let err = (&y - &t).t() * (&y - &t);
-        //err[(0,0)].print();
+        let y = forward(&w, &ab);
         let wb = hide_bias(&w);
-        let delta_o = (&y - &t).hadamard(&dv_act(&y));
-        let delta_h = (&delta_o * &wb.t()).hadamard(&dv_act(&a));
+        let delta_o = (&y - &t).hadamard(&dsigmoid(&y));
+        let delta_h = (&delta_o * &wb.t()).hadamard(&dsigmoid(&a));
 
         w = w.clone() - eta * (ab.t() * delta_o);
         v = v.clone() - eta * (xb.t() * delta_h);
     }
 
-    let a = forward(&v, &xb, &act);
+    let a = forward(&v, &xb);
     let ab = add_bias(&a, -0.1f64);
-    let y = forward(&w, &ab, &act);
+    let y = forward(&w, &ab);
 
     y
 }
+
+// Older version (0.30.0)
+
+//// adfn is for activation
+//fn forward<F>(weights: &Matrix, input_bias: &Matrix, adfn: &ADFn<F>) -> Matrix 
+//where F: Fn(AD) -> AD 
+//{
+//    let s = input_bias * weights;
+//    s.fmap(|x| adfn.call_stable(x))
+//}
+//
+//fn add_bias(input: &Matrix, bias: f64) -> Matrix {
+//    let b = matrix(vec![bias; input.row], input.row, 1, Col);
+//    cbind(b, input.clone())
+//}
+//
+//fn hide_bias(weight: &Matrix) -> Matrix {
+//    weight.skip_row(1)
+//}
+//
+//fn train(
+//    weights1: Matrix,
+//    weights2: Matrix,
+//    input: Matrix,
+//    answer: Matrix,
+//    eta: f64,
+//    times: usize,
+//) -> Matrix {
+//    let x = input;
+//    let mut v = weights1;
+//    let mut w = weights2;
+//    let t = answer;
+//    let xb = add_bias(&x, -0.1f64);
+//
+//    // Choose activation function - sigmoid or tanh
+//    //let act = ADFn::new(sigmoid);
+//    let act = ADFn::new(tanh);
+//    //let act = ADFn::new(relu);
+//    // gradient of sigmoid
+//    let d_act = act.grad();
+//    // vectorize function
+//    let dv_act = |m: &Matrix| m.fmap(|x| d_act.call_stable(x));
+//
+//    for _i in 0..times {
+//        let a = forward(&v, &xb, &act);
+//        let ab = add_bias(&a, -0.1f64);
+//        let y = forward(&w, &ab, &act);
+//        //let err = (&y - &t).t() * (&y - &t);
+//        //err[(0,0)].print();
+//        let wb = hide_bias(&w);
+//        let delta_o = (&y - &t).hadamard(&dv_act(&y));
+//        let delta_h = (&delta_o * &wb.t()).hadamard(&dv_act(&a));
+//
+//        w = w.clone() - eta * (ab.t() * delta_o);
+//        v = v.clone() - eta * (xb.t() * delta_h);
+//    }
+//
+//    let a = forward(&v, &xb, &act);
+//    let ab = add_bias(&a, -0.1f64);
+//    let y = forward(&w, &ab, &act);
+//
+//    y
+//}
