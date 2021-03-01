@@ -17,7 +17,7 @@ fn main() {
     let w = weights_init(3, 1);
 
     let x = ml_matrix("0 0; 0 1; 1 0; 1 1");
-    let t = ml_matrix("0;1;1;1");
+    let t = ml_matrix("0;1;1;0");
 
     println!("Input: ");
     x.print();
@@ -27,18 +27,23 @@ fn main() {
     t.print();
     println!();
 
-    let y = train(v, w, x, t, 0.25, 10000);
+    let y = train(v, w, x, t, 0.25, 20000);
     println!("Predict: ");
     y.print();
 }
 
 fn weights_init(m: usize, n: usize) -> Matrix {
-    rand(m, n) * 2f64 - 1f64
+    rand(m, n).change_shape() * 2f64 - 1f64
 }
 
 #[ad_function]
 fn sigmoid(x: f64) -> f64 {
     1f64 / (1f64 + (-x).exp())
+}
+
+#[ad_function]
+fn tanh(x: f64) -> f64 {
+    x.tanh()
 }
 
 fn forward(weights: &Matrix, input_bias: &Matrix) -> Matrix {
@@ -67,25 +72,30 @@ fn train(
     let mut v = weights1;
     let mut w = weights2;
     let t = answer;
-    let xb = add_bias(&x, -0.1f64);
+    let xb = add_bias(&x, -1f64);
 
-    // Vectorize gradient of sigmoid
-    let dsigmoid = |m: &Matrix| m.fmap(|x| sigmoid_grad(x));
+    // Vectorize gradient of activation function
+    //let dsigmoid = |m: &Matrix| m.fmap(|x| sigmoid_grad(x));
+    let dtanh = |m: &Matrix| m.fmap(|x| tanh_grad(x));
+
+    let d_act = dtanh;
 
     for _i in 0..times {
         let a = forward(&v, &xb);
-        let ab = add_bias(&a, -0.1f64);
+        let ab = add_bias(&a, -1f64);
         let y = forward(&w, &ab);
         let wb = hide_bias(&w);
-        let delta_o = (&y - &t).hadamard(&dsigmoid(&y));
-        let delta_h = (&delta_o * &wb.t()).hadamard(&dsigmoid(&a));
+        let delta_o = (&y - &t).hadamard(&d_act(&y));
+        let delta_h = (&delta_o * &wb.t()).hadamard(&d_act(&a));
+        //let delta_o = (&y - &t).hadamard(&y.hadamard(&(-&y + 1f64)));
+        //let delta_h = (&delta_o * &wb.t()).hadamard(&a.hadamard(&(-&a + 1f64)));
 
         w = w.clone() - eta * (ab.t() * delta_o);
         v = v.clone() - eta * (xb.t() * delta_h);
     }
 
     let a = forward(&v, &xb);
-    let ab = add_bias(&a, -0.1f64);
+    let ab = add_bias(&a, -1f64);
     let y = forward(&w, &ab);
 
     y
