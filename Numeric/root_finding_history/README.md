@@ -1,4 +1,4 @@
-# Root Finding using `ad_function` macro
+# Root Finding with saving history
 
 ## Peroxide Version
 
