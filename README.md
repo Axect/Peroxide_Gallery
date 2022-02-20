@@ -17,6 +17,7 @@
     * [Newton Cotes quadrature](./Numeric/newton_cotes)
     * [ODE with Environment](./Numeric/ode_with_env)
     * [Root Finding](./Numeric/root_finding)
+    * [Root Finding via `ad_function`](./Numeric/root_finding_macro)
     * [Linear regression with error](./Numeric/lm_with_weight)
     * [Lorenz Butterfly](./Numeric/lorenz)
 * **Physics** (Ver: `0.30.0`)
