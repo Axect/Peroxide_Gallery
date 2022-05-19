@@ -21,6 +21,7 @@
     * [Root Findingwith saving history](./Numeric/root_finding_history)
     * [Linear regression with error](./Numeric/lm_with_weight)
     * [Lorenz Butterfly](./Numeric/lorenz)
+    * [Cubic Hermite Spline](./Numeric/cubic_hermite)
 * **Physics** (Ver: `0.30.0`)
     * [Estimate Ground state of Yukawa potential](./Physics/yukawa_ground_state)
     * [Falling with Air resistance](./Physics/fall_drag)
