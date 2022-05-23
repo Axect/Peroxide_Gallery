@@ -32,3 +32,4 @@
 * **IO**
     * [DataFrame tutorial](./IO/dataframe)
     * [peroxide with polars](./IO/with_polars)
+    * [Save Matrix](./IO/save_matrix)
