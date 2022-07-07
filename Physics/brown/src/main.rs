@@ -1,8 +1,8 @@
 use peroxide::fuga::*;
 
 fn main() {
-    let bin = Bernoulli(0.5);
-    let event = bin.sample(10000);
+    let bern = Bernoulli(0.5);
+    let event = bern.sample(10000);
     
     let trial = seq(0, event.len() as i32, 1);
     let mut position = 0i64;
