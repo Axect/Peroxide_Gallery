@@ -26,6 +26,7 @@
     * [Estimate Ground state of Yukawa potential](./Physics/yukawa_ground_state)
     * [Falling with Air resistance](./Physics/fall_drag)
     * [Approximate Pi with Elastic collision](./Physics/elastic_pi)
+    * [Brownian Motion (Random walk)](./Physics/brown)
 * **Plot**
     * [matplotlib with netcdf](./Plot/matplotlib_with_netcdf)
     * [peroxide's plot feature](./Plot/plot_feature)
