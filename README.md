@@ -22,11 +22,12 @@
     * [Linear regression with error](./Numeric/lm_with_weight)
     * [Lorenz Butterfly](./Numeric/lorenz)
     * [Cubic Hermite Spline](./Numeric/cubic_hermite)
+* **Statistics**
+    * [Brownian Motion (Random walk)](./Statistics/brown)
 * **Physics** (Ver: `0.30.0`)
     * [Estimate Ground state of Yukawa potential](./Physics/yukawa_ground_state)
     * [Falling with Air resistance](./Physics/fall_drag)
     * [Approximate Pi with Elastic collision](./Physics/elastic_pi)
-    * [Brownian Motion (Random walk)](./Physics/brown)
 * **Plot**
     * [matplotlib with netcdf](./Plot/matplotlib_with_netcdf)
     * [peroxide's plot feature](./Plot/plot_feature)
