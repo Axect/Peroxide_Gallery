@@ -18,8 +18,8 @@ plt.xlabel(r'End points', fontsize=14)
 plt.ylabel(r'Density', fontsize=14)
 
 # Prepare Data to Plot
-y = var['result'][:]  
-y2 = var['result2'][:]
+y = var['prob'][:]  
+y2 = var['randomwalk'][:]
 
 # Plot with Legends
 sns.distplot(y, label=r"Direct Sampling from $W(n)$", bins=100)

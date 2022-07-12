@@ -5,18 +5,19 @@ use peroxide::fuga::*;
 const N: usize = 100000;
 
 fn main() {
-    let result = repeat(100).take(N).map(|n| w(n)).collect::<Vec<i64>>();
-    let result2 = repeat(100).take(N).map(|n| random_walk_end(n)).collect::<Vec<i64>>();
+    let sample_from_prob = repeat(100).take(N).map(|n| W(n)).collect::<Vec<i64>>();
+    let sample_from_randomwalk = repeat(100).take(N).map(|n| random_walk_end(n)).collect::<Vec<i64>>();
 
     let mut df = DataFrame::new(vec![]);
-    df.push("result", Series::new(result));
-    df.push("result2", Series::new(result2));
+    df.push("prob", Series::new(sample_from_prob));
+    df.push("randomwalk", Series::new(sample_from_randomwalk));
     df.print();
 
     df.write_nc("result.nc").expect("Could not write to file");
 }
 
-fn w(n: usize) -> i64 {
+#[allow(non_snake_case)]
+fn W(n: usize) -> i64 {
     let bin = Binomial(n, 0.5);
     let m = bin.sample(1)[0] as usize;
     (2 * m - n) as i64
