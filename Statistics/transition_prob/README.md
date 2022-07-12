@@ -44,3 +44,7 @@ python nc_hist.py
 ## Result
 
 ![](./hist.png)
+
+## References
+
+* M. Chaichian, A. Demichev, *Path Integrals in Physics: Volume I Stochastic Processes and Quantum Mechanics*, CRC Press (2001)
