@@ -22,6 +22,7 @@
     * [Linear regression with error](./Numeric/lm_with_weight)
     * [Lorenz Butterfly](./Numeric/lorenz)
     * [Cubic Hermite Spline](./Numeric/cubic_hermite)
+    * [Truncated Cubic Hermite Spline](./Numeric/truncated_cubic)
 * **Statistics**
     * [Brownian Motion (Random walk)](./Statistics/brown)
     * [Sampling from Transition probability](./Statistics/transition_prob)
