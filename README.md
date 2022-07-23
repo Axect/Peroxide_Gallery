@@ -26,7 +26,7 @@
 * **Statistics**
     * [Brownian Motion (Random walk)](./Statistics/brown)
     * [Sampling from Transition probability](./Statistics/transition_prob)
-    * [Solution of Diffusino Equation](./Statistics/diffusion)
+    * [Solution of Diffusion Equation](./Statistics/diffusion)
 * **Physics** (Ver: `0.30.0`)
     * [Estimate Ground state of Yukawa potential](./Physics/yukawa_ground_state)
     * [Falling with Air resistance](./Physics/fall_drag)

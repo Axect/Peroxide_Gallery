@@ -20,7 +20,7 @@ $$
 And we can solve above equation with $w_i(0) = \delta_{i0}$ as initial state.
 
 $$
-w(x,t) = \frac{1}{4\pi D t} \exp \left(-\frac{x^2}{4Dt}\right)
+w(x,t) = \frac{1}{\sqrt{4\pi D t}} \exp \left(-\frac{x^2}{4Dt}\right)
 $$
 
 In this project, we want to compare end points of random walks with this probability distribution function.
@@ -28,7 +28,7 @@ In this project, we want to compare end points of random walks with this probabi
 ## Setting
 
 * Time step : $\epsilon = 10^{-2}$
-* Unit Distance : $l = 10^{-1} ~\Rightarrow~ t=10,\\,D=\frac{1}{2}$
+* Unit Distance : $l = 10^{-1} \\,\Rightarrow\\, t=10,\\,D=\frac{1}{2}$
 * Length of Path : $n = 1000$
 * Total number of trials : $N = 10000$
 
