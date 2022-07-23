@@ -23,7 +23,7 @@ $$
 w(x,t) = \frac{1}{\sqrt{4\pi D t}} \exp \left(-\frac{x^2}{4Dt}\right)
 $$
 
-In this project, we want to compare end points of random walks with this probability distribution function.
+In this project, we want to compare distribution of end points of random walks via kernel density estimation (KDE) with this probability distribution function.
 
 ## Setting
 
@@ -31,6 +31,7 @@ In this project, we want to compare end points of random walks with this probabi
 * Unit Distance : $l = 10^{-1} \\,\Rightarrow\\, t=10,\\,D=\frac{1}{2}$
 * Length of Path : $n = 1000$
 * Total number of trials : $N = 10000$
+* Kernel : Epanechnikov Quadratic Kernel with window size $\lambda = 1$
 
 ## Build Process
 
