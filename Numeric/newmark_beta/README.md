@@ -1,4 +1,4 @@
-# Velocity-Verlet
+# Newmark-Beta method
 
 ## Description
 
