@@ -23,6 +23,7 @@
     * [Lorenz Butterfly](./Numeric/lorenz)
     * [Cubic Hermite Spline](./Numeric/cubic_hermite)
     * [Truncated Cubic Hermite Spline](./Numeric/truncated_cubic)
+    * [Velocity Verlet Algorithm](./Numeric/verlet)
 * **Statistics**
     * [Brownian Motion (Random walk)](./Statistics/brown)
     * [Sampling from Transition probability](./Statistics/transition_prob)
