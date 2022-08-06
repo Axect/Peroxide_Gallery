@@ -55,14 +55,14 @@ pub struct NewmarkSHO {
 impl NewmarkSHO {
     pub fn new(x: f64, v: f64, a: f64, m: f64, c: f64, k: f64, gamma: f64, beta: f64) -> NewmarkSHO {
         NewmarkSHO {
-            x: x,
-            v: v,
-            a: a,
-            m: m,
-            c: c,
-            k: k,
-            gamma: gamma,
-            beta: beta,
+            x,
+            v,
+            a,
+            m,
+            c,
+            k,
+            gamma,
+            beta,
         }
     }
 
