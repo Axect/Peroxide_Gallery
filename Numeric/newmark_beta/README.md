@@ -9,7 +9,7 @@ m\ddot{u} + c\dot{u} + ku = 0
 $$
 
 * $m = 1\text{kg}$
-* $k = 200 \text{N} / \text{m}^2$
+* $k = 200 \text{N} / \text{m}$
 * $c = \zeta \cdot 2\sqrt{km}$
 * $\zeta = 0.01$
 
