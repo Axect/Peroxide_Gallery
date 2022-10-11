@@ -25,6 +25,7 @@
     * [Truncated Cubic Hermite Spline](./Numeric/truncated_cubic)
     * [Velocity Verlet Algorithm](./Numeric/verlet)
     * [Newmark Beta method](./Numeric/newmark_beta)
+    * [ODE with stop condition](./Numeric/ode_with_stop)
 * **Statistics**
     * [Brownian Motion (Random walk)](./Statistics/brown)
     * [Sampling from Transition probability](./Statistics/transition_prob)
