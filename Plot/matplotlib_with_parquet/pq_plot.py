@@ -15,7 +15,7 @@ x3 = df['x3']
 
 # Prepare Plot
 plt.figure(figsize=(10,6), dpi=300)
-plt.title(r"Title", fontsize=16)
+plt.title(r"Plot", fontsize=16)
 plt.xlabel(r'$x$', fontsize=14)
 plt.ylabel(r'$y$', fontsize=14)
 
