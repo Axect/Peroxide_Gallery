@@ -37,6 +37,7 @@
 * **Plot**
     * [matplotlib with netcdf](./Plot/matplotlib_with_netcdf)
     * [peroxide's plot feature](./Plot/plot_feature)
+    * [matplotlib with parquet](./Plot/matplotlib_with_parquet)
 * **IO**
     * [DataFrame tutorial](./IO/dataframe)
     * [peroxide with polars](./IO/with_polars)
