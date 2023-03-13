@@ -13,13 +13,12 @@ g       = df['g']
 g_hat   = df['g_hat']
 w       = df['w']
 b       = df['b']
-A       = df['A'][0]
-B       = df['B'][0]
+f_hat   = df['f_hat']
+z       = df['z']
 
 domain  = np.linspace(x.min(), x.max(), 1000)
 hyper   = -w[0] * domain + b[0]
-platt   = 1 / (1 + np.exp(A * x + B))
-platd   = 1 / (1 + np.exp(A * domain + B))
+platt   = z
 
 
 # Plot params
@@ -49,10 +48,10 @@ with plt.style.context(["science", "nature"]):
     ax.autoscale(tight=True)
     ax.set(**pparam)
     ax.set(title="Platt Scaling")
+    ax.set(xlim=(f_hat.min(), f_hat.max()))
     ax.set(ylim=(-0.1, 1.1))
     ax.set(ylabel=r'$P(y=1|x)$')
-    ax.plot(domain, platd, 'k--', label=r'$\hat{g}(x)$')
-    ax.scatter(x, platt, c=g, cmap='bwr', s=1, alpha=0.5, label=r'$g(x)$')
+    ax.scatter(f_hat, platt, c=g, cmap='bwr', s=1, alpha=0.5, label=r'$g(x)$')
     ax.axhline(0.5, color='purple', linestyle='--', alpha=0.5, label=r'$P(y=1|x)=0.5$')
     ax.legend()
     fig.savefig('platt.png', dpi=300, bbox_inches='tight')

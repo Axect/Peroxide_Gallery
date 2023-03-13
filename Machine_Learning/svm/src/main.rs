@@ -4,8 +4,9 @@ const N: usize = 1000;
 
 #[allow(non_snake_case)]
 fn main() {
-    let n1_x = Normal(2f64, 1f64);
-    let n1_y = Normal(1f64, 1.5f64);
+    // Generate data
+    let n1_x = Normal(1f64, 1f64);
+    let n1_y = Normal(2f64, 1.5f64);
     let n2_x = Normal(-1f64, 1f64);
     let n2_y = Normal(-2f64, 1.5f64);
 
@@ -22,17 +23,28 @@ fn main() {
     let X = rbind(X1, X2);
     let y = concat(&c1, &c2);
 
-    let mut svm = SVM::new(1e-3, 1e-2, 1000);
+    // SVM
+    let mut svm = SVM::new(1e-4, 1e-2, 1000);
+
+    // Base line score
     let base_pred = svm.baseline(&X);
     let base_cm = ConfusionMatrix::new(&y, &base_pred);
     base_cm.summary();
 
+    // Train
     svm.fit(&X, &y);
+
+    // Predict
     let y_hat = svm.predict(&X);
+    let f_hat = svm.compute_decision_values(&X);
+
+    // Score
     let cm = ConfusionMatrix::new(&y, &y_hat);
     cm.summary();
 
-    let AB = platt_scaling(&y, &y_hat);
+    // Platt Scaling
+    let AB = platt_scaling(&y, &f_hat);
+    let z  = sigmoid(&f_hat, AB.0, AB.1);
 
     let mut df = DataFrame::new(vec![]);
     df.push("x", Series::new(X.col(0)));
@@ -41,8 +53,8 @@ fn main() {
     df.push("g_hat", Series::new(y_hat));
     df.push("w", Series::new(svm.w.clone()));
     df.push("b", Series::new(vec![svm.b]));
-    df.push("A", Series::new(vec![AB.0]));
-    df.push("B", Series::new(vec![AB.1]));
+    df.push("f_hat", Series::new(f_hat));
+    df.push("z", Series::new(z));
 
     df.print();
 
@@ -216,13 +228,13 @@ impl ConfusionMatrix {
 }
 
 #[allow(non_snake_case)]
-fn platt_scaling(y: &Vec<f64>, y_hat: &Vec<f64>) -> (f64, f64) {
+fn platt_scaling(y: &Vec<f64>, f_hat: &Vec<f64>) -> (f64, f64) {
     let N_p = y.iter().filter(|&&x| x == 1f64).count();
     let N_n = y.iter().filter(|&&x| x == -1f64).count();
-    let t_p = (1f64 + N_p as f64) / (2f64 * N_p as f64);
-    let t_n = 1f64 / (2f64 + 2f64 * N_n as f64);
+    let t_p = (1f64 + N_p as f64) / (2f64 + N_p as f64);
+    let t_n = 1f64 / (2f64 + N_n as f64);
 
-    let x = y_hat.clone();
+    let x = f_hat.clone();
     let y = y.clone().fmap(|t| if t == 1f64 { t_p } else { t_n });
 
     let data = matrix(concat(&x, &y), x.len(), 2, Col);
@@ -231,7 +243,7 @@ fn platt_scaling(y: &Vec<f64>, y_hat: &Vec<f64>) -> (f64, f64) {
     let AB = opt.set_init_param(vec![1f64, 1f64])
         .set_max_iter(100)
         .set_method(LevenbergMarquardt)
-        .set_lambda_init(1e-4)
+        .set_lambda_init(1e-3)
         .set_lambda_max(1e+3)
         .optimize();
     (AB[0], AB[1])
@@ -242,7 +254,11 @@ fn logistic_transform(x: &Vec<f64>, AB: Vec<AD>) -> Option<Vec<AD>> {
     Some(
         x.clone().into_iter()
             .map(|t| AD1(t, 0f64))
-            .map(|t| 1f64 / (AB[0] * t + AB[1]).exp())
+            .map(|t| 1f64 / (1f64 + (AB[0] * t + AB[1]).exp()))
             .collect()
     )
+}
+
+fn sigmoid(x: &Vec<f64>, A: f64, B: f64) -> Vec<f64> {
+    x.fmap(|t| 1f64 / (1f64 + (A * t + B).exp()))
 }
