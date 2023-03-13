@@ -24,7 +24,7 @@ fn main() {
     let y = concat(&c1, &c2);
 
     // SVM
-    let mut svm = SVM::new(1e-4, 1e-2, 1000);
+    let mut svm = SVM::new(1e-4, 1e-2, N);
 
     // Base line score
     let base_pred = svm.baseline(&X);
@@ -46,6 +46,16 @@ fn main() {
     let AB = platt_scaling(&y, &f_hat);
     let z  = sigmoid(&f_hat, AB.0, AB.1);
 
+    let thr = linspace(0f64, 1f64, N*2);
+    let mut tpr = vec![];
+    let mut fpr = vec![];
+    for t in thr {
+        let pred = z.fmap(|x| if x > t { 1f64 } else { -1f64 });
+        let cm = ConfusionMatrix::new(&y, &pred);
+        tpr.push(cm.tpr());
+        fpr.push(cm.fpr());
+    }
+
     let mut df = DataFrame::new(vec![]);
     df.push("x", Series::new(X.col(0)));
     df.push("y", Series::new(X.col(1)));
@@ -55,6 +65,8 @@ fn main() {
     df.push("b", Series::new(vec![svm.b]));
     df.push("f_hat", Series::new(f_hat));
     df.push("z", Series::new(z));
+    df.push("tpr", Series::new(tpr));
+    df.push("fpr", Series::new(fpr));
 
     df.print();
 
@@ -182,25 +194,25 @@ impl ConfusionMatrix {
         }
     }
 
-    fn accuracy(&self) -> f64 {
+    fn acc(&self) -> f64 {
         (self.TP + self.TN) as f64 / (self.TP + self.TN + self.FP + self.FN) as f64
     }
 
-    fn precision(&self) -> f64 {
+    fn ppv(&self) -> f64 {
         self.TP as f64 / (self.TP + self.FP) as f64
     }
 
-    fn recall(&self) -> f64 {
+    fn tpr(&self) -> f64 {
         self.TP as f64 / (self.TP + self.FN) as f64
     }
 
     fn f1_score(&self) -> f64 {
-        let p = self.precision();
-        let r = self.recall();
+        let p = self.ppv();
+        let r = self.tpr();
         2f64 * p * r / (p + r)
     }
 
-    fn specificity(&self) -> f64 {
+    fn tnr(&self) -> f64 {
         self.TN as f64 / (self.TN + self.FP) as f64
     }
 
@@ -208,6 +220,15 @@ impl ConfusionMatrix {
         self.TN as f64 / (self.TN + self.FN) as f64
     }
 
+    fn fnr(&self) -> f64 {
+        self.FN as f64 / (self.FN + self.TP) as f64
+    }
+
+    fn fpr(&self) -> f64 {
+        self.FP as f64 / (self.FP + self.TN) as f64
+    }
+
+    #[allow(dead_code)]
     fn to_matrix(&self) -> Matrix {
         let mut m = zeros(2, 2);
         m[(0, 0)] = self.TP as f64;
@@ -218,12 +239,16 @@ impl ConfusionMatrix {
     }
 
     fn summary(&self) {
-        println!("Accuracy:\t{:.2}", self.accuracy());
-        println!("Precision:\t{:.2}", self.precision());
-        println!("Recall:\t\t{:.2}", self.recall());
-        println!("F1 Score:\t{:.2}", self.f1_score());
-        println!("Specificity:\t{:.2}", self.specificity());
-        println!("NPV:\t\t{:.2}", self.npv());
+        println!("==============================");
+        println!("Acc:\t{:.2}", self.acc());
+        println!("PPV:\t{:.2}", self.ppv());
+        println!("TPR:\t{:.2}", self.tpr());
+        println!("TNR:\t{:.2}", self.tnr());
+        println!("NPV:\t{:.2}", self.npv());
+        println!("F1:\t{:.2}", self.f1_score());
+        println!("FPR:\t{:.2}", self.fpr());
+        println!("FNR:\t{:.2}", self.fnr());
+        println!("==============================")
     }
 }
 
@@ -259,6 +284,7 @@ fn logistic_transform(x: &Vec<f64>, AB: Vec<AD>) -> Option<Vec<AD>> {
     )
 }
 
+#[allow(non_snake_case)]
 fn sigmoid(x: &Vec<f64>, A: f64, B: f64) -> Vec<f64> {
     x.fmap(|t| 1f64 / (1f64 + (A * t + B).exp()))
 }

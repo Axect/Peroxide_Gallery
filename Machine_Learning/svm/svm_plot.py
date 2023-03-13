@@ -15,6 +15,8 @@ w       = df['w']
 b       = df['b']
 f_hat   = df['f_hat']
 z       = df['z']
+tpr     = df['tpr']
+fpr     = df['fpr']
 
 domain  = np.linspace(x.min(), x.max(), 1000)
 hyper   = -w[0] * domain + b[0]
@@ -55,3 +57,20 @@ with plt.style.context(["science", "nature"]):
     ax.axhline(0.5, color='purple', linestyle='--', alpha=0.5, label=r'$P(y=1|x)=0.5$')
     ax.legend()
     fig.savefig('platt.png', dpi=300, bbox_inches='tight')
+
+# ROC Curve
+with plt.style.context(["science", "nature"]):
+    fig, ax = plt.subplots()
+    ax.autoscale(tight=True)
+    ax.set_aspect('equal')
+    ax.set(**pparam)
+    ax.set(title="ROC Curve")
+    ax.set(xlim=(-0.04, 1.04))
+    ax.set(ylim=(-0.04, 1.04))
+    ax.set(xlabel=r'FPR')
+    ax.set(ylabel=r'TPR')
+    ax.plot(fpr, tpr, color='r', label=r'Data')
+    ax.plot([0, 1], [0, 1], color='b', linestyle=':', alpha=0.5, label=r'Random')
+    ax.legend()
+    fig.savefig('roc.png', dpi=300, bbox_inches='tight')
+

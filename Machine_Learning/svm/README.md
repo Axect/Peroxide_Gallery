@@ -16,4 +16,6 @@
 * Result
     ![Platt Scaling](./platt.png)
 
-## ROC - AUC
+## ROC Curve
+
+![ROC](./roc.png)
