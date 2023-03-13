@@ -6,15 +6,13 @@
 
 * Using linear kernel
 
-* Result
-    ![SVM](./svm.png)
+![SVM](./svm.png)
 
 ## Platt Scaling
 
 * Using Levenberg-Marquardt algorithm to fit the sigmoid function
 
-* Result
-    ![Platt Scaling](./platt.png)
+![Platt Scaling](./platt.png)
 
 ## ROC Curve
 
