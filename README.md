@@ -9,6 +9,7 @@
     * [Multi Layer Perceptron](./Machine_Learning/mlp)
     * [Linear regression](./Machine_Learning/linear_reg)
     * [Linear ridge regression](./Machine_Learning/linear_reg_ridge)
+    * [SVM](./Machine_Learning/svm)
 * **Numeric**
     * [RK4 with netcdf](./Numeric/rk4_with_nc)
     * [RK4 with plot](./Numeric/rk4_with_plot)
