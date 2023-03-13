@@ -4,7 +4,7 @@ const N: usize = 1000;
 
 #[allow(non_snake_case)]
 fn main() {
-    let n1_x = Normal(1f64, 1f64);
+    let n1_x = Normal(2f64, 1f64);
     let n1_y = Normal(1f64, 1.5f64);
     let n2_x = Normal(-1f64, 1f64);
     let n2_y = Normal(-2f64, 1.5f64);

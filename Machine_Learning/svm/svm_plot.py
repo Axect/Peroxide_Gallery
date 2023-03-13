@@ -29,7 +29,7 @@ pparam = dict(
     title = r"SVM",
     xscale = 'linear',
     yscale = 'linear',
-    xlim = (x.min(), x.max()),
+    xlim = (-6, 6),
     ylim = (y.min(), y.max()),
 )
 
