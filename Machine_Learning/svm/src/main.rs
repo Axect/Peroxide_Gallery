@@ -28,8 +28,9 @@ fn main() {
 
     // Base line score
     let base_pred = svm.baseline(&X);
-    let base_cm = ConfusionMatrix::new(&y, &base_pred);
-    base_cm.summary();
+    let true_val  = 1f64;
+    let base_cm   = ConfusionMatrix::new(&y, &base_pred, true_val);
+    base_cm.summary(&[ACC, PPV, TPR, FPR, F1]);
 
     // Train
     svm.fit(&X, &y);
@@ -39,8 +40,8 @@ fn main() {
     let f_hat = svm.compute_decision_values(&X);
 
     // Score
-    let cm = ConfusionMatrix::new(&y, &y_hat);
-    cm.summary();
+    let cm = ConfusionMatrix::new(&y, &y_hat, true_val);
+    cm.summary(&[ACC, PPV, TPR, FPR, F1]);
 
     // Platt Scaling
     let AB = platt_scaling(&y, &f_hat);
@@ -52,9 +53,9 @@ fn main() {
     let mut fpr = vec![];
     for t in thr {
         let pred = z.fmap(|x| if x > t { 1f64 } else { -1f64 });
-        let cm = ConfusionMatrix::new(&y, &pred);
-        tpr.push(cm.tpr());
-        fpr.push(cm.fpr());
+        let cm = ConfusionMatrix::new(&y, &pred, true_val);
+        tpr.push(cm.TPR());
+        fpr.push(cm.FPR());
     }
     
     // AUC
@@ -163,101 +164,6 @@ impl SVM {
         self.predict(X)
     }
 }
-
-#[allow(non_snake_case)]
-struct ConfusionMatrix {
-    TP: usize,
-    TN: usize,
-    FP: usize,
-    FN: usize,
-}
-
-impl ConfusionMatrix {
-    #[allow(non_snake_case)]
-    fn new(y: &Vec<f64>, y_hat: &Vec<f64>) -> Self {
-        let mut TP = 0;
-        let mut TN = 0;
-        let mut FP = 0;
-        let mut FN = 0;
-
-        for (&y, &y_hat) in y.iter().zip(y_hat.iter()) {
-            if y == 1f64 && y_hat == 1f64 {
-                TP += 1;
-            } else if y == -1f64 && y_hat == -1f64 {
-                TN += 1;
-            } else if y == -1f64 && y_hat == 1f64 {
-                FP += 1;
-            } else if y == 1f64 && y_hat == -1f64 {
-                FN += 1;
-            }
-        }
-
-        Self {
-            TP,
-            TN,
-            FP,
-            FN,
-        }
-    }
-
-    fn acc(&self) -> f64 {
-        (self.TP + self.TN) as f64 / (self.TP + self.TN + self.FP + self.FN) as f64
-    }
-
-    fn ppv(&self) -> f64 {
-        self.TP as f64 / (self.TP + self.FP) as f64
-    }
-
-    fn tpr(&self) -> f64 {
-        self.TP as f64 / (self.TP + self.FN) as f64
-    }
-
-    fn f1_score(&self) -> f64 {
-        let p = self.ppv();
-        let r = self.tpr();
-        2f64 * p * r / (p + r)
-    }
-
-    fn tnr(&self) -> f64 {
-        self.TN as f64 / (self.TN + self.FP) as f64
-    }
-
-    fn npv(&self) -> f64 {
-        self.TN as f64 / (self.TN + self.FN) as f64
-    }
-
-    fn fnr(&self) -> f64 {
-        self.FN as f64 / (self.FN + self.TP) as f64
-    }
-
-    fn fpr(&self) -> f64 {
-        self.FP as f64 / (self.FP + self.TN) as f64
-    }
-
-    #[allow(dead_code)]
-    fn to_matrix(&self) -> Matrix {
-        let mut m = zeros(2, 2);
-        m[(0, 0)] = self.TP as f64;
-        m[(0, 1)] = self.FP as f64;
-        m[(1, 0)] = self.FN as f64;
-        m[(1, 1)] = self.TN as f64;
-        m
-    }
-
-    fn summary(&self) {
-        println!("==============================");
-        println!("Acc:\t{:.2}", self.acc());
-        println!("PPV:\t{:.2}", self.ppv());
-        println!("TPR:\t{:.2}", self.tpr());
-        println!("TNR:\t{:.2}", self.tnr());
-        println!("NPV:\t{:.2}", self.npv());
-        println!("F1:\t{:.2}", self.f1_score());
-        println!("FPR:\t{:.2}", self.fpr());
-        println!("FNR:\t{:.2}", self.fnr());
-        println!("==============================")
-    }
-}
-
 #[allow(non_snake_case)]
 fn platt_scaling(y: &Vec<f64>, f_hat: &Vec<f64>) -> (f64, f64) {
     let N_p = y.iter().filter(|&&x| x == 1f64).count();
@@ -298,13 +204,9 @@ fn auc(tpr: &Vec<f64>, fpr: &Vec<f64>) -> f64 {
     tf.sort_by(|a, b| a.1.partial_cmp(b.1).unwrap());
 
     for (&t, &f) in tf.into_iter() {
-        if t == t_prev || f == f_prev {
-            continue;
-        } else {
-            auc += (t + t_prev) * (f - f_prev) / 2f64;
-            t_prev = t;
-            f_prev = f;
-        }
+        auc += (t + t_prev) * (f - f_prev) / 2f64;
+        t_prev = t;
+        f_prev = f;
     }
 
     auc
