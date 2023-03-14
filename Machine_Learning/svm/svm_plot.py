@@ -1,25 +1,28 @@
 import matplotlib.pyplot as plt
+from netCDF4 import Dataset
 import pandas as pd
 import numpy as np
 import scienceplots
 
 # Import netCDF file
-df = pd.read_parquet("./svm.parquet")
+ncfile = './svm.nc'
+df     = Dataset(ncfile).variables
 
 # Prepare Data to Plot
-x       = df['x']
-y       = df['y']
-g       = df['g']
-g_hat   = df['g_hat']
-w       = df['w']
-b       = df['b']
-f_hat   = df['f_hat']
-z       = df['z']
-tpr     = df['tpr']
-fpr     = df['fpr']
+x       = df['x'][:]
+y       = df['y'][:]
+g       = df['g'][:]
+g_hat   = df['g_hat'][:]
+w       = df['w'][:]
+b       = df['b'][0]
+f_hat   = df['f_hat'][:]
+z       = df['z'][:]
+tpr     = df['tpr'][:]
+fpr     = df['fpr'][:]
+auc     = df['auc'][0]
 
 domain  = np.linspace(x.min(), x.max(), 1000)
-hyper   = -w[0] * domain + b[0]
+hyper   = -w[0] * domain + b
 platt   = z
 
 
@@ -64,7 +67,7 @@ with plt.style.context(["science", "nature"]):
     ax.autoscale(tight=True)
     ax.set_aspect('equal')
     ax.set(**pparam)
-    ax.set(title="ROC Curve")
+    ax.set(title=f"ROC Curve (AUC = {auc:.3f})")
     ax.set(xlim=(-0.04, 1.04))
     ax.set(ylim=(-0.04, 1.04))
     ax.set(xlabel=r'FPR')

@@ -46,6 +46,7 @@ fn main() {
     let AB = platt_scaling(&y, &f_hat);
     let z  = sigmoid(&f_hat, AB.0, AB.1);
 
+    // ROC curve
     let thr = linspace(0f64, 1f64, N*2);
     let mut tpr = vec![];
     let mut fpr = vec![];
@@ -55,6 +56,10 @@ fn main() {
         tpr.push(cm.tpr());
         fpr.push(cm.fpr());
     }
+    
+    // AUC
+    let auc = auc(&tpr, &fpr);
+    auc.print();
 
     let mut df = DataFrame::new(vec![]);
     df.push("x", Series::new(X.col(0)));
@@ -67,10 +72,11 @@ fn main() {
     df.push("z", Series::new(z));
     df.push("tpr", Series::new(tpr));
     df.push("fpr", Series::new(fpr));
+    df.push("auc", Series::new(vec![auc]));
 
     df.print();
 
-    df.write_parquet("svm.parquet", CompressionOptions::Uncompressed).unwrap();
+    df.write_nc("svm.nc").unwrap();
 }
 
 struct SVM {
@@ -282,6 +288,26 @@ fn logistic_transform(x: &Vec<f64>, AB: Vec<AD>) -> Option<Vec<AD>> {
             .map(|t| 1f64 / (1f64 + (AB[0] * t + AB[1]).exp()))
             .collect()
     )
+}
+
+fn auc(tpr: &Vec<f64>, fpr: &Vec<f64>) -> f64 {
+    let mut auc    = 0f64;
+    let mut t_prev = 0f64;
+    let mut f_prev = 0f64;
+    let mut tf = tpr.iter().zip(fpr.iter()).collect::<Vec<_>>();
+    tf.sort_by(|a, b| a.1.partial_cmp(b.1).unwrap());
+
+    for (&t, &f) in tf.into_iter() {
+        if t == t_prev || f == f_prev {
+            continue;
+        } else {
+            auc += (t + t_prev) * (f - f_prev) / 2f64;
+            t_prev = t;
+            f_prev = f;
+        }
+    }
+
+    auc
 }
 
 #[allow(non_snake_case)]
