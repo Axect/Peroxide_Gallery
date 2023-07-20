@@ -6,17 +6,23 @@ See [lm.pdf](http://people.duke.edu/~hpgavin/ce281/lm.pdf)
 
 ## Requirements
 
-* Rust Nightly
-* python matplotlib library (Draw plot)
-* texlive or alternatives (Draw plot)
+* Rust
+* Python libraries: matplotlib, pandas, pyarrow
 
 ## Build Process
 
-```sh
-# Run
-cargo run --release
-```
+1. Run
+    ```sh
+    # Run
+    cargo run --release
+    ```
+
+2. Plot
+    ```sh
+    # Plot
+    python pqplot.py
+    ```
 
 ## Result
 
-![lm](./lm_test.png)
+![lm](./plot.png)
