@@ -1,0 +1,9 @@
+[package]
+name = "importance_sampling"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+peroxide = { version = "0.34.1", features = ["parquet"] }
