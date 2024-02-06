@@ -7,19 +7,19 @@ import numpy as np
 df = pd.read_parquet('dct.parquet')
 
 # Prepare Data to Plot
-t = df['t']
+t = np.array(df['t'][:])
 x = df['x']
 y = df['y']
 x_hat = df['x_hat']
-index = np.arange(len(x))
+omega = np.arange(len(x)) / 10
 
 # Plot params
 pparam = dict(
-    xlabel = r'Frequency Index',
+    xlabel = r'Frequency (Hz)',
     ylabel = r'$y$',
     xscale = 'linear',
     yscale = 'linear',
-    xlim   = (0, 100),
+    xlim   = (0, 10),
 )
 
 # Plot
@@ -27,13 +27,13 @@ with plt.style.context(["science", "nature"]):
     fig, ax = plt.subplots()
     ax.autoscale(tight=True)
     ax.set(**pparam)
-    ax.plot(index, y, label=r'$y={\rm DCT}(x)$')
+    ax.plot(omega, y, label=r'$y={\rm DCT}(x)$')
     ax.legend()
     fig.savefig('dct_plot.png', dpi=600, bbox_inches='tight')
 
 # Plot params
 pparam = dict(
-    xlabel = r'$t$',
+    xlabel = r'$t$ (s)',
     ylabel = r'$x$',
     xscale = 'linear',
     yscale = 'linear',
