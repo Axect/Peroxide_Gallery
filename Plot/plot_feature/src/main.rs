@@ -13,13 +13,13 @@ fn main() -> Result<(), Box<dyn Error>> {
         .insert_image(x)
         .insert_image(x2)
         .insert_image(x3)
-        .set_fig_size((10, 6))
+        .set_style(PlotStyle::Default) // Or Science, Nature, IEEE
         .set_dpi(300)
-        .set_title("Test Plot")
         .set_xlabel("$x$")
         .set_ylabel("$y$")
         .set_legend(vec!["$y=x$", "$y=x^2$", "$y=x^3$"])
         .grid(Grid::On)
+        .tight_layout()
         .set_path("plot.png")
         .savefig()?;
 

@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-* Python - `matplotlib`
+* Python - `matplotlib`, `scienceplots`
 
 ## Description
 
@@ -18,4 +18,14 @@ cargo run --release
 
 ## Result
 
-![plot](plot.png)
+- Default style
+  ![plot](plot.png)
+
+- Science style (Default style for scienceplots)
+  ![plot](plot_science.png)
+
+- Nature style
+  ![plot](plot_nature.png)
+
+- IEEE style
+  ![plot](plot_ieee.png)
