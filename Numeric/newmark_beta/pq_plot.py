@@ -1,20 +1,18 @@
-from netCDF4 import Dataset
 import matplotlib.pyplot as plt
+import pandas as pd
 
 # Use latex
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 
 # Import netCDF file
-ncfile = './data/newmark_beta.nc'
-data = Dataset(ncfile)
-var = data.variables
+df = pd.read_parquet("./newmark_beta.parquet")
 
 # Prepare Data to Plot
-t = var['t'][:]
-x = var['x'][:]
-v = var['v'][:]  
-a = var['a'][:]
+t = df['t'][:]
+x = df['x'][:]
+v = df['v'][:]  
+a = df['a'][:]
 
 # Prepare Plot
 plt.figure(figsize=(10,6), dpi=300)

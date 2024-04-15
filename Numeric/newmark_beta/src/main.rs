@@ -1,6 +1,6 @@
 use peroxide::fuga::*;
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let m = 1f64;
     let k = 200f64;
     let c = 0.01 * 2f64 * (k * m).sqrt();
@@ -38,7 +38,9 @@ fn main() {
 
     df.print();
 
-    df.write_nc("data/newmark_beta.nc").expect("Can't write newmark_beta");
+    df.write_parquet("newmark_beta.parquet", CompressionOptions::Uncompressed)?;
+
+    Ok(())
 }
 
 pub struct NewmarkSHO {

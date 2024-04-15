@@ -23,7 +23,7 @@ mkdir data
 cargo run --release
 
 # Plot
-python nc_plot.py
+python pq_plot.py
 ```
 
 ## Result

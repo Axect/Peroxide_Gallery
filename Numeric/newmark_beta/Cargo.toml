@@ -6,4 +6,4 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-peroxide = { version = "0.31.6", features = ["nc"] }
+peroxide = { version = "0.37.1", features = ["parquet"] }
