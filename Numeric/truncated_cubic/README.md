@@ -16,9 +16,6 @@ x & \text{else}
 ```sh
 # Run
 cargo run --release
-
-# Plot
-python nc_plot.py
 ```
 
 ## Result
