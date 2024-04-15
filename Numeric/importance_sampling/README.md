@@ -39,6 +39,6 @@ A function that returns the true value of the integral for comparison purposes.
 
 A function that performs importance sampling using a uniform distribution.
 
-### `importance_sampling_weighted<F>(f: F, (a, b): (f64, f64), n: usize) -> f64`
+### `importance_sampling_weighted<F>(f: F, (a, b): (f64, f64), n: usize) -> Result<f64>`
 
 A function that performs importance sampling using a weighted uniform distribution.

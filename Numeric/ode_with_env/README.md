@@ -15,12 +15,10 @@
 ## Process
 
 ```sh
-# Build
-cargo build --release
-
-# Run
+# Run & Plot
 cargo run --release
-
-# Plot
-python nc_plot.py
 ```
+
+## Result
+
+![plot](./plot.png)
