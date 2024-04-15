@@ -13,10 +13,7 @@
 cargo build --release
 
 # Run
-cargo run --release --bin cubic_hermite
-
-# Plot
-python nc_plot.py
+cargo run --release
 ```
 
 ## Result
