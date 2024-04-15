@@ -23,7 +23,7 @@
     * [Linear regression with error](./Numeric/lm_with_weight)
     * [Lorenz Butterfly](./Numeric/lorenz): Ver 0.37.1
     * [Cubic Hermite Spline](./Numeric/cubic_hermite): Ver 0.37.1
-    * [Truncated Cubic Hermite Spline](./Numeric/truncated_cubic)
+    * [Truncated Cubic Hermite Spline](./Numeric/truncated_cubic): Ver 0.37.1
     * [Velocity Verlet Algorithm](./Numeric/verlet)
     * [Newmark Beta method](./Numeric/newmark_beta): Ver 0.37.1
     * [ODE with stop condition](./Numeric/ode_with_stop)
