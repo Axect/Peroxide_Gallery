@@ -12,23 +12,23 @@
     * [SVM](./Machine_Learning/svm)
 * **Numeric**
     * [RK4 with netcdf](./Numeric/rk4_with_nc)
-    * [RK4 with plot](./Numeric/rk4_with_plot)
+    * [RK4 with plot](./Numeric/rk4_with_plot): Ver 0.37.1
     * [Lebenverg Marquardt](./Numeric/lm)
     * [Reduced Row Echelon Form](./Numeric/rref)
     * [Newton Cotes quadrature](./Numeric/newton_cotes)
-    * [ODE with Environment](./Numeric/ode_with_env)
-    * [Root Finding](./Numeric/root_finding)
-    * [Root Finding via `ad_function`](./Numeric/root_finding_macro)
-    * [Root Findingwith saving history](./Numeric/root_finding_history)
+    * [ODE with Environment](./Numeric/ode_with_env): Ver 0.37.1
+    * [Root Finding](./Numeric/root_finding): Ver 0.37.1
+    * [Root Finding via `ad_function`](./Numeric/root_finding_macro): Ver 0.37.1
+    * [Root Finding via `radient`](./Numeric/root_finding_radient): Ver 0.37.1
     * [Linear regression with error](./Numeric/lm_with_weight)
-    * [Lorenz Butterfly](./Numeric/lorenz)
-    * [Cubic Hermite Spline](./Numeric/cubic_hermite)
+    * [Lorenz Butterfly](./Numeric/lorenz): Ver 0.37.1
+    * [Cubic Hermite Spline](./Numeric/cubic_hermite): Ver 0.37.1
     * [Truncated Cubic Hermite Spline](./Numeric/truncated_cubic)
     * [Velocity Verlet Algorithm](./Numeric/verlet)
-    * [Newmark Beta method](./Numeric/newmark_beta)
+    * [Newmark Beta method](./Numeric/newmark_beta): Ver 0.37.1
     * [ODE with stop condition](./Numeric/ode_with_stop)
-    * [Numerical Integration with Importance Sampling](./Numeric/importance_sampling)
-    * [Discrete Cosine Transform](./Numeric/dct)
+    * [Numerical Integration with Importance Sampling](./Numeric/importance_sampling): Ver 0.37.1
+    * [Discrete Cosine Transform](./Numeric/dct): Ver 0.37.1
 * **Statistics**
     * [Brownian Motion (Random walk)](./Statistics/brown)
     * [Sampling from Transition probability](./Statistics/transition_prob)
