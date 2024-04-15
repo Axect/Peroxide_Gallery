@@ -2,16 +2,17 @@
 
 ## Requirements
 
-* Rust Nightly
+* Rust
 * python matplotlib library (Draw plot)
 * texlive or alternatives (Draw plot)
 
-## Build process
+## Usage
 
 ```sh
-# Build (Can simply : cargo build --release)
-RUSTFLAGS="-C target-cpu=native" cargo build --release
-
-# Run (Can simply : cargo run --release)
-RUSTFLAGS="-C target-cpu=native" cargo run --release
+# Run
+cargo run --release
 ```
+
+## Results
+
+![plot](./plot.png)
