@@ -25,8 +25,6 @@ The resulting values are plotted using the Peroxide library, and the plot is sav
 
 To run the code, ensure that you have Rust and the necessary dependencies installed. The code requires the following dependencies:
 
-- `Peroxide`: Used for plotting and visualization.
-
 You can add the dependencies by running the following command:
 
 ```shell
