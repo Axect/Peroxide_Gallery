@@ -48,7 +48,7 @@ impl CubicBasis {
     pub fn eval(&self, x: f64) -> f64 {
         let t = 4f64 * (x - self.x_min) / (self.x_max - self.x_min);
 
-        if (0f64..1f64).contains(&t) {
+        let result = if (0f64..1f64).contains(&t) {
             t.powi(3) / 6f64
         } else if (1f64..2f64).contains(&t) {
             (-3f64 * t.powi(3) + 12f64 * t.powi(2) - 12f64 * t + 4f64) / 6f64
@@ -58,7 +58,9 @@ impl CubicBasis {
             (4f64 - t).powi(3) / 6f64
         } else {
             0f64
-        }
+        };
+
+        result * self.scale
     }
 
     pub fn eval_vec(&self, x: &[f64]) -> Vec<f64> {
