@@ -29,6 +29,7 @@
     * [ODE with stop condition](./Numeric/ode_with_stop)
     * [Numerical Integration with Importance Sampling](./Numeric/importance_sampling): Ver 0.37.1
     * [Discrete Cosine Transform](./Numeric/dct): Ver 0.37.1
+    * [Cubic B-Spline Basis functions](./Numeric/cubic_b_spline): Ver 0.37.2
 * **Statistics**
     * [Brownian Motion (Random walk)](./Statistics/brown)
     * [Sampling from Transition probability](./Statistics/transition_prob)
