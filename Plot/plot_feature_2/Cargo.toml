@@ -1,0 +1,10 @@
+[package]
+name = "plot_feature_2"
+version = "0.1.0"
+authors = ["Axect <axect@outlook.kr>", "raprism (https://github.com/raprism)"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+peroxide = { version = "0.37.9", features = ["plot"] }
