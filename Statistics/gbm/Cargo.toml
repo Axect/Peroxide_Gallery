@@ -1,0 +1,7 @@
+[package]
+name = "gbm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+peroxide = { version = "0.39.2", features = ["parquet"] }
